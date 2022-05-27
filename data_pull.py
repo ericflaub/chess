@@ -1,7 +1,10 @@
 import berserk
 import datetime
 from datetime import date
-session = berserk.TokenSession('lip_5wiPU7gzAZ9rdfDXuGIb')
+import knowledge
+
+account = knowledge.account()
+session = berserk.TokenSession(account.token)
 client = berserk.Client(session=session)
 
 eric = client.account.get()
