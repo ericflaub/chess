@@ -1,9 +1,11 @@
 import berserk
 import datetime
 from datetime import date
-import knowledge
+import chess_knowledge 
+import pandas as pd
+import statsmodels.api as sm
 
-account = knowledge.account()
+account = chess_knowledge.account()
 session = berserk.TokenSession(account.token)
 client = berserk.Client(session=session)
 
@@ -37,3 +39,17 @@ for i in games:
             pass
 len(outcome_series)
 error_count
+
+# simple model to get the ball rolling. Basically just checking for autoregressive properties of the series
+df = pd.DataFrame(outcome_series, columns= ['outcomes'])
+df['lag1']=df['outcomes'].shift(1)
+df['lag2']=df['outcomes'].shift(2)
+df['int'] = 1
+df = df.dropna()
+X = df[['int','lag1', 'lag2']]
+y = df[['outcomes']]
+mod = sm.OLS(y, X)
+res = mod.fit()
+print(res.summary())
+
+
