@@ -12,7 +12,7 @@ client = berserk.Client(session=session)
 eric = client.account.get()
 start_date = eric['createdAt']
 end_date = date.today()
-
+client.users.get_public_data('icererci')
 client.games.export_by_player('icererci', since=start_date, until=end_date)
 games = list(_)
 error_count = []
